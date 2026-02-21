@@ -12,6 +12,7 @@ import SoupKitchenIcon from '@mui/icons-material/SoupKitchen';
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Autocomplete, TextField } from '@mui/material';
 
 import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
@@ -77,7 +78,21 @@ function App() {
           </div>
 
           <div className='middle-header'>
-
+            <Autocomplete
+              options={['Soup', 'Rice', 'Egg']}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label='Search Recipe'
+                  slotProps={{
+                    input: {
+                      ...params.InputProps,
+                      type: 'search'
+                    }
+                  }} 
+                />
+              )} 
+            />
           </div>
 
           <div className='right-header'>
