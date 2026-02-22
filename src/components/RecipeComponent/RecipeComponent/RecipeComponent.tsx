@@ -1,8 +1,8 @@
 import { Button, Card, CardContent, CardMedia, Chip, Typography, CardActionArea, CardActions } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import type { Recipe } from "../../types/Recipe";
-import { getRecipeDescription } from "../../utils/recipeDescriptions";
-import { getRecipeImage } from "../../utils/recipeImages";
+import type { Recipe } from "../../../types/Recipe";
+import { getRecipeDescription } from "../../../utils/recipeDescriptions";
+import { getRecipeImage } from "../../../utils/recipeImages";
 
 interface RecipeComponentProps {
   recipe: Recipe;
