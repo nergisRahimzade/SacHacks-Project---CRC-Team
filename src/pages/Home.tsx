@@ -2,29 +2,54 @@ import thePantryLogo from '../assets/the-pantry-logo.png';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SoupKitchenIcon from '@mui/icons-material/SoupKitchen';
-import RamenDiningIcon from '@mui/icons-material/RamenDining';
-import FoodBankIcon from '@mui/icons-material/FoodBank';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Autocomplete, Checkbox, Collapse, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Button, Checkbox, Collapse, FormControlLabel, FormGroup, InputAdornment, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import { RecipeComponent } from '../components/RecipeComponent';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { fetchRecipes } from '../services/fetchRecipes';
 import type { Recipe } from '../types/Recipe';
+import { categorizeIngredients } from '../utils/ingredientCategories';
 
 export function Home() {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [openCollapse, setOpenCollapse] = useState(true);
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [recipesData, setRecipesData] = useState<Recipe[]>([]);
   const [allIngredientNames, setAllIngredientNames] = useState<string[]>([]);
+  const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const categorizedIngredients = useMemo(
+    () => categorizeIngredients(allIngredientNames),
+    [allIngredientNames]
+  );
+
+  const filteredRecipes = useMemo(() => {
+    let recipes = recipesData;
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      recipes = recipes.filter((recipe) =>
+        recipe.name.toLowerCase().includes(query) ||
+        recipe.ingredientNames.some((ing) => ing.toLowerCase().includes(query))
+      );
+    }
+
+    if (checkedIngredients.size > 0) {
+      recipes = recipes.filter((recipe) =>
+        recipe.ingredientNames.some((ingredient) => checkedIngredients.has(ingredient))
+      );
+    }
+
+    return recipes;
+  }, [recipesData, checkedIngredients, searchQuery]);
 
   useEffect(() => {
     fetchRecipes().then(({ recipesData, allIngredientNames }) => {
@@ -41,8 +66,20 @@ export function Home() {
     setOpenDrawer(false);
   }
 
-  const handleCollapseClick = () => {
-    setOpenCollapse(!openCollapse);
+  const handleCategoryClick = (category: string) => {
+    setOpenCategories((prev) => ({ ...prev, [category]: !prev[category] }));
+  };
+
+  const handleIngredientToggle = (ingredient: string) => {
+    setCheckedIngredients((prev) => {
+      const next = new Set(prev);
+      if (next.has(ingredient)) {
+        next.delete(ingredient);
+      } else {
+        next.add(ingredient);
+      }
+      return next;
+    });
   };
 
   return (
@@ -52,68 +89,99 @@ export function Home() {
 
         <div className='header'>
           <div className='left-header'>
-            <IconButton onClick={handleClick}>
+            <IconButton onClick={handleClick} aria-label="open filters">
               <MenuIcon />
             </IconButton>
 
             <Drawer open={openDrawer} onClose={handleClose}>
-              <Box sx={{ width: 250 }}>
-                {recipesData.map((recipe: Recipe) => (
-                  <List id={crypto.randomUUID()}>
-                    <ListItem key='ingredients'>
-                      <ListItemButton onClick={handleCollapseClick}>
-                        <ListItemIcon>
-                          <SoupKitchenIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={'Ingredients'} />
-                        {openCollapse ? <ExpandLess /> : <ExpandMore />}
+              <Box sx={{ width: 280 }}>
+                <List
+                  subheader={
+                    <ListItemButton sx={{ py: 1.5 }}>
+                      <ListItemIcon>
+                        <SoupKitchenIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Ingredients" primaryTypographyProps={{ fontWeight: 'bold' }} />
+                    </ListItemButton>
+                  }
+                >
+                  {checkedIngredients.size > 0 && (
+                    <Button
+                      size="small"
+                      onClick={() => setCheckedIngredients(new Set())}
+                      sx={{ ml: 3, mb: 1, textTransform: 'none', fontSize: '0.8rem' }}
+                    >
+                      Reset Filters
+                    </Button>
+                  )}
+                  {Object.entries(categorizedIngredients).map(([category, ingredients]) => (
+                    <div key={category}>
+                      <ListItemButton onClick={() => handleCategoryClick(category)} sx={{ pl: 3 }}>
+                        <ListItemText primary={category} primaryTypographyProps={{ fontWeight: 500, fontSize: '0.95rem' }} />
+                        {openCategories[category] ? <ExpandLess /> : <ExpandMore />}
                       </ListItemButton>
-                      <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-                        <List>a
-                          <FormGroup>
-                            {
-                              allIngredientNames.map((ingredient) => (
-                                <FormControlLabel key={ingredient} control={<Checkbox />} label={ingredient}/>
-                              ))
-                            }
-                          </FormGroup>
-                        </List>
-                        <ListItemText primary={recipe.name} />
+                      <Collapse in={openCategories[category]} timeout="auto" unmountOnExit>
+                        <FormGroup sx={{ pl: 5 }}>
+                          {ingredients.map((ingredient) => (
+                            <FormControlLabel
+                              key={ingredient}
+                              control={
+                                <Checkbox
+                                  size="small"
+                                  checked={checkedIngredients.has(ingredient)}
+                                  onChange={() => handleIngredientToggle(ingredient)}
+                                />
+                              }
+                              label={ingredient}
+                              sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
+                            />
+                          ))}
+                        </FormGroup>
                       </Collapse>
-                    </ListItem>
-                  </List>
-                ))}
-
+                    </div>
+                  ))}
+                </List>
               </Box>
             </Drawer>
           </div>
 
           <div className='middle-header'>
-            <Autocomplete
-              options={['Soup', 'Rice', 'Egg']}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Search Recipe'
-                  slotProps={{
-                    input: {
-                      ...params.InputProps,
-                      type: 'search'
-                    }
-                  }}
-                />
-              )}
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Search recipes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: 'action.active' }} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
             />
           </div>
 
           <div className='right-header'>
-            <img className='logo' src={thePantryLogo} alt="the-pantry-logo"></img>
+            <img className='logo' src={thePantryLogo} alt="the-pantry-logo" />
           </div>
         </div>
       </div>
 
       <div className='main-body-container'>
-        <RecipeComponent />
+        {filteredRecipes.map((recipe) => {
+          const matchCount = recipe.ingredientNames.filter((ing) => checkedIngredients.has(ing)).length;
+          return (
+            <RecipeComponent
+              key={recipe.name}
+              recipe={recipe}
+              matchCount={matchCount}
+              showMatch={checkedIngredients.size >= 3}
+            />
+          );
+        })}
       </div>
     </div>
   )
