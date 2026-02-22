@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# The Pantry Recipe Website
+ 
+The Pantry Recipe Website is a responsive and easy-to-use website for people who wants to search recipes or for people who have ingredients but don't know what to cook.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was build for a 24-hour hackathon.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Search recipes
+- Filter recipes by choosing ingredients
+- Look through instructions of the recipes
+- Bubble notification popup when 3 or more ingredients are chosen to show options based on how many of the chosen ingredients the recipe contains
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React
+- TypeScript
+- CSS
+- Google API
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Architecture / How It Works
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- The project is component-based
+- The project also uses React hooks useState, useEffect, useMemo for state management and rendering purposes
+- State flows from parent to child components
+- The project also uses Google API to fetch data from a Google Sheet
+- The project uses MUI as a Reacct UI component library
+- This project was created with Vite as a frontend build tool and development server
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Clone the repository:
+   
+    ```bash
+    git clone https://github.com/nergisRahimzade/SacHacks-Project---CRC-Team
+    ```
+2. Install dependencies:
+   
+   ```bash
+    npm install
+    ```
+
+3. Start development server:
+
+  ```bash
+  npm run dev
+  ```
+
+---
+
+## Challenges & Lessons Learned
+
+- Integration of Google Sheet data using Google API
+- Using integrated data to render components
+- Integrating filtering logic
+- Creating a highly-responsive UI for search and filtering operations
+
+---
+
+## Future Improvements
+
+- Add backend to the project
+- Have a search history of recipes
+- Have a wider database 
+- Filter recipes according to categories like cuisine, dietary preferances
+- Have a recommendation system according to past searched recipes
+
+---
+
+## Author
+
+Nergiz Rahimzade
+Computer Science Student @ Cosumnes River College
+Github: https://github.com/nergisRahimzade
