@@ -16,6 +16,7 @@ import { Autocomplete, TextField } from '@mui/material';
 
 import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
+import { RecipeComponent } from './components/RecipeComponent';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -99,6 +100,10 @@ function App() {
             <img className='logo' src={thePantryLogo} alt="the-pantry-logo"></img>
           </div>
         </div>
+      </div>
+
+      <div className='main-body-container'>
+        <RecipeComponent />
       </div>
     </div>
   )

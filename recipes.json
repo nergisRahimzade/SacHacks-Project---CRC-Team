@@ -1,0 +1,18 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Pasta Cobb Salad",
+      "ingredients": ["Barilla Ready Pasta Elbows", "Bacon", "Iceberg Salad"],
+      "ingredients-detailed": ["1 pouch Barilla Ready Pasta Elbows", "2 slices bacon, crispy and cut in strips", "1 cup Iceberg Salad, shredded"],
+      "ingredients-at-the-pantry": ["1 pouch Barilla Ready Pasta Elbows"]
+    },
+    {
+      "id": 2,
+      "name": "Pasta Salad with Tomato Basil Sauce and Cheese",
+      "ingredients": ["Barilla Ready Pasta Elbows", "Barilla Tomato & Basil Sauce", "Basil"],
+      "ingredients-detailed": ["1 pouch Barilla Ready Pasta Elbows", "2 slices bacon, crispy and cut in strips", "1 cup Iceberg Salad, shredded"],
+      "ingredients-at-the-pantry": ["1 pouch Barilla Ready Pasta Elbows"]
+    }
+  ]
+}
