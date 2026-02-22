@@ -13,7 +13,7 @@ export async function fetchRecipes() {
 
   const [_headers, ...rows] = data.values;
   const recipesData: Recipe[] = rows.map((recipe: string[], i: number) => ({
-    id: crypto.randomUUID,
+    id: crypto.randomUUID(),
     name: recipe[0].trim(),
     ingredients: recipe[1].split('\n').map((i) => i.trim()).filter(Boolean) ?? [],
     ingredientsAtThePantry: recipe[2].split('\n').map((i) => i.trim()).filter(Boolean) ?? [],

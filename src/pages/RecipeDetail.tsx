@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, Chip, Divider, List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@mui/material';
+import { Box, Button, Chip, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import pastaCobb from '../assets/pasta-cobb-salad.jpg';
+import wheatIcon from '../assets/wheat-icon.png';
 import type { Recipe } from '../types/Recipe';
 
 export function RecipeDetail() {
@@ -23,91 +23,211 @@ export function RecipeDetail() {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
-      <Button
-        onClick={() => navigate('/')}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2, textTransform: 'none' }}
-      >
-        Back to Recipes
-      </Button>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#fdf6ec' }}>
+      {/* Hero Section */}
+      <Box sx={{ position: 'relative', width: '100%', height: 380, overflow: 'hidden' }}>
+        <IconButton
+          onClick={() => navigate('/')}
+          sx={{
+            position: 'absolute',
+            top: 16,
+            left: 16,
+            zIndex: 2,
+            backgroundColor: 'rgba(255,255,255,0.85)',
+            '&:hover': { backgroundColor: 'rgba(255,255,255,1)' },
+          }}
+        >
+          <ArrowBackIcon />
+        </IconButton>
 
-      <Paper elevation={2} sx={{ borderRadius: 2, overflow: 'hidden' }}>
         <Box
           component="img"
           src={pastaCobb}
           alt={recipe.name}
-          sx={{ width: '100%', height: 300, objectFit: 'cover' }}
+          sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
 
-        <Box sx={{ p: 3 }}>
-          <Typography variant="h4" fontWeight={600} gutterBottom>
-            {recipe.name}
-          </Typography>
+        {/* Gradient overlay */}
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '60%',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+          }}
+        />
 
-          <Divider sx={{ my: 2 }} />
+        {/* Recipe title over image */}
+        <Typography
+          sx={{
+            position: 'absolute',
+            bottom: 32,
+            left: 0,
+            right: 0,
+            textAlign: 'center',
+            color: '#fff',
+            fontFamily: "'Georgia', 'Times New Roman', serif",
+            fontStyle: 'italic',
+            fontSize: { xs: '2rem', sm: '2.8rem' },
+            fontWeight: 400,
+            textShadow: '2px 2px 8px rgba(0,0,0,0.5)',
+            px: 2,
+          }}
+        >
+          {recipe.name}
+        </Typography>
+      </Box>
 
-          {/* Ingredients Section */}
-          <Typography variant="h5" fontWeight={500} gutterBottom>
+      {/* Content Body */}
+      <Box
+        sx={{
+          maxWidth: 800,
+          mx: 'auto',
+          mt: -3,
+          position: 'relative',
+          zIndex: 1,
+          backgroundColor: '#fdf6ec',
+          borderRadius: '16px 16px 0 0',
+          px: { xs: 3, sm: 5 },
+          py: 4,
+        }}
+      >
+        {/* Wheat icon decoration */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          <Box
+            component="img"
+            src={wheatIcon}
+            alt="wheat decoration"
+            sx={{ height: 60, opacity: 0.7 }}
+          />
+        </Box>
+
+        {/* Ingredients Section */}
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              mb: 2,
+              color: '#3e2723',
+              borderBottom: '2px solid #eeb467',
+              pb: 1,
+              display: 'inline-block',
+            }}
+          >
             Ingredients
           </Typography>
 
-          <List dense>
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              borderRadius: 2,
+              border: '1px solid #e8d5b7',
+              p: 3,
+            }}
+          >
             {recipe.ingredients.map((ingredient, index) => {
               const isFromPantry = recipe.ingredientsAtThePantry.includes(ingredient);
               return (
-                <ListItem key={index} sx={{ py: 0.5 }}>
-                  <ListItemIcon sx={{ minWidth: 32 }}>
-                    {isFromPantry
-                      ? <CheckCircleIcon sx={{ fontSize: 16, color: '#2e7d32' }} />
-                      : <FiberManualRecordIcon sx={{ fontSize: 8, color: '#666' }} />
-                    }
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={ingredient}
-                    primaryTypographyProps={{ fontSize: '0.95rem' }}
-                  />
+                <Box
+                  key={index}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    py: 0.75,
+                    borderBottom: index < recipe.ingredients.length - 1 ? '1px solid #f0e6d3' : 'none',
+                  }}
+                >
+                  {isFromPantry
+                    ? <CheckCircleIcon sx={{ fontSize: 16, color: '#2e7d32', flexShrink: 0 }} />
+                    : <Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#c4a066', flexShrink: 0 }} />
+                  }
+                  <Typography sx={{ fontSize: '0.95rem', color: '#4e342e', flex: 1 }}>
+                    {ingredient}
+                  </Typography>
                   {isFromPantry && (
-                    <Chip label="At the Pantry" size="small" color="success" variant="outlined" sx={{ fontSize: '0.7rem', height: 22 }} />
+                    <Chip
+                      label="At the Pantry"
+                      size="small"
+                      sx={{
+                        fontSize: '0.7rem',
+                        height: 22,
+                        backgroundColor: '#e8f5e9',
+                        color: '#2e7d32',
+                        border: '1px solid #a5d6a7',
+                      }}
+                    />
                   )}
-                </ListItem>
+                </Box>
               );
             })}
-          </List>
+          </Box>
+        </Box>
 
-          <Divider sx={{ my: 2 }} />
-
-          {/* Preparation Section */}
-          <Typography variant="h5" fontWeight={500} gutterBottom>
+        {/* Preparation Section */}
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              mb: 2,
+              color: '#3e2723',
+              borderBottom: '2px solid #eeb467',
+              pb: 1,
+              display: 'inline-block',
+            }}
+          >
             Preparation
           </Typography>
 
-          <List>
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              borderRadius: 2,
+              border: '1px solid #e8d5b7',
+              p: 3,
+            }}
+          >
             {recipe.preparation.map((step, index) => (
-              <ListItem key={index} sx={{ alignItems: 'flex-start', py: 1 }}>
-                <ListItemIcon sx={{ minWidth: 36, mt: 0.5 }}>
-                  <Chip
-                    label={index + 1}
-                    size="small"
-                    sx={{
-                      backgroundColor: '#eeb467',
-                      color: '#333',
-                      fontWeight: 600,
-                      fontSize: '0.8rem',
-                      height: 24,
-                      width: 24,
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary={step}
-                  primaryTypographyProps={{ fontSize: '0.95rem', lineHeight: 1.6 }}
-                />
-              </ListItem>
+              <Box
+                key={index}
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                  py: 1.5,
+                  borderBottom: index < recipe.preparation.length - 1 ? '1px solid #f0e6d3' : 'none',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Box
+                  sx={{
+                    minWidth: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    backgroundColor: '#eeb467',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 700,
+                    fontSize: '0.85rem',
+                    color: '#3e2723',
+                    flexShrink: 0,
+                    mt: 0.25,
+                  }}
+                >
+                  {index + 1}
+                </Box>
+                <Typography sx={{ fontSize: '0.95rem', color: '#4e342e', lineHeight: 1.7 }}>
+                  {step}
+                </Typography>
+              </Box>
             ))}
-          </List>
+          </Box>
         </Box>
-      </Paper>
+      </Box>
     </Box>
   );
 }
