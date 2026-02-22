@@ -9,6 +9,7 @@ export function RecipeComponent() {
           <CardMedia
             sx={{ height: 140, objectFit: 'cover' }}
             image={pastaCobb}
+            id="1"
             title='Pasta Cobb Salad'
           />
           <CardContent>
