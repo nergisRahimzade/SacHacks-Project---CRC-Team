@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Chip, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import pastaCobb from '../assets/pasta-cobb-salad.jpg';
 import wheatIcon from '../assets/wheat-icon.png';
+import { getRecipeImage } from '../utils/recipeImages';
 import type { Recipe } from '../types/Recipe';
 
 export function RecipeDetail() {
@@ -23,7 +23,7 @@ export function RecipeDetail() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#fdf6ec' }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#FDF6EC' }}>
       {/* Hero Section */}
       <Box sx={{ position: 'relative', width: '100%', height: 380, overflow: 'hidden' }}>
         <IconButton
@@ -42,9 +42,9 @@ export function RecipeDetail() {
 
         <Box
           component="img"
-          src={pastaCobb}
+          src={getRecipeImage(recipe.name)}
           alt={recipe.name}
-          sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          sx={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
 
         {/* Gradient overlay */}
@@ -85,36 +85,43 @@ export function RecipeDetail() {
         sx={{
           maxWidth: 800,
           mx: 'auto',
-          mt: -3,
+          mt: 0,
           position: 'relative',
           zIndex: 1,
-          backgroundColor: '#fdf6ec',
+          backgroundColor: '#FDF6EC',
           borderRadius: '16px 16px 0 0',
           px: { xs: 3, sm: 5 },
           py: 4,
+          overflow: 'hidden',
         }}
       >
-        {/* Wheat icon decoration */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-          <Box
-            component="img"
-            src={wheatIcon}
-            alt="wheat decoration"
-            sx={{ height: 60, opacity: 0.7 }}
-          />
-        </Box>
+        {/* Wheat icon decoration — positioned on the right edge */}
+        <Box
+          component="img"
+          src={wheatIcon}
+          alt="wheat decoration"
+          sx={{
+            position: 'absolute',
+            top: 24,
+            right: { xs: -60, sm: -80 },
+            height: 500,
+            opacity: 0.25,
+            pointerEvents: 'none',
+          }}
+        />
 
         {/* Ingredients Section */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 4, position: 'relative', zIndex: 1 }}>
           <Typography
             variant="h5"
             sx={{
               fontWeight: 700,
               mb: 2,
               color: '#3e2723',
-              borderBottom: '2px solid #eeb467',
+              borderBottom: '2px solid #F4B300',
               pb: 1,
               display: 'inline-block',
+              fontFamily: "'Rubik', sans-serif",
             }}
           >
             Ingredients
@@ -122,9 +129,9 @@ export function RecipeDetail() {
 
           <Box
             sx={{
-              backgroundColor: '#fff',
+              backgroundColor: 'transparent',
               borderRadius: 2,
-              border: '1px solid #e8d5b7',
+              border: '1px solid #D0BB86',
               p: 3,
             }}
           >
@@ -138,14 +145,14 @@ export function RecipeDetail() {
                     alignItems: 'center',
                     gap: 1.5,
                     py: 0.75,
-                    borderBottom: index < recipe.ingredients.length - 1 ? '1px solid #f0e6d3' : 'none',
+                    borderBottom: index < recipe.ingredients.length - 1 ? '1px solid #D0BB86' : 'none',
                   }}
                 >
                   {isFromPantry
-                    ? <CheckCircleIcon sx={{ fontSize: 16, color: '#2e7d32', flexShrink: 0 }} />
-                    : <Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#c4a066', flexShrink: 0 }} />
+                    ? <CheckCircleIcon sx={{ fontSize: 16, color: '#567F64', flexShrink: 0 }} />
+                    : <Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#BB8457', flexShrink: 0 }} />
                   }
-                  <Typography sx={{ fontSize: '0.95rem', color: '#4e342e', flex: 1 }}>
+                  <Typography sx={{ fontSize: '0.95rem', color: '#3e2723', flex: 1, fontFamily: "'Rubik', sans-serif" }}>
                     {ingredient}
                   </Typography>
                   {isFromPantry && (
@@ -155,9 +162,9 @@ export function RecipeDetail() {
                       sx={{
                         fontSize: '0.7rem',
                         height: 22,
-                        backgroundColor: '#e8f5e9',
-                        color: '#2e7d32',
-                        border: '1px solid #a5d6a7',
+                        backgroundColor: 'rgba(86, 127, 100, 0.1)',
+                        color: '#567F64',
+                        border: '1px solid #567F64',
                       }}
                     />
                   )}
@@ -168,16 +175,17 @@ export function RecipeDetail() {
         </Box>
 
         {/* Preparation Section */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 4, position: 'relative', zIndex: 1 }}>
           <Typography
             variant="h5"
             sx={{
               fontWeight: 700,
               mb: 2,
               color: '#3e2723',
-              borderBottom: '2px solid #eeb467',
+              borderBottom: '2px solid #F4B300',
               pb: 1,
               display: 'inline-block',
+              fontFamily: "'Rubik', sans-serif",
             }}
           >
             Preparation
@@ -185,9 +193,9 @@ export function RecipeDetail() {
 
           <Box
             sx={{
-              backgroundColor: '#fff',
+              backgroundColor: 'transparent',
               borderRadius: 2,
-              border: '1px solid #e8d5b7',
+              border: '1px solid #D0BB86',
               p: 3,
             }}
           >
@@ -198,7 +206,7 @@ export function RecipeDetail() {
                   display: 'flex',
                   gap: 2,
                   py: 1.5,
-                  borderBottom: index < recipe.preparation.length - 1 ? '1px solid #f0e6d3' : 'none',
+                    borderBottom: index < recipe.preparation.length - 1 ? '1px solid #D0BB86' : 'none',
                   alignItems: 'flex-start',
                 }}
               >
@@ -207,7 +215,7 @@ export function RecipeDetail() {
                     minWidth: 28,
                     height: 28,
                     borderRadius: '50%',
-                    backgroundColor: '#eeb467',
+                    backgroundColor: '#F4B300',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -220,7 +228,7 @@ export function RecipeDetail() {
                 >
                   {index + 1}
                 </Box>
-                <Typography sx={{ fontSize: '0.95rem', color: '#4e342e', lineHeight: 1.7 }}>
+                <Typography sx={{ fontSize: '0.95rem', color: '#3e2723', lineHeight: 1.7, fontFamily: "'Rubik', sans-serif" }}>
                   {step}
                 </Typography>
               </Box>

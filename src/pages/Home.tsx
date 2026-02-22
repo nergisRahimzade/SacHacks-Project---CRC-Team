@@ -89,7 +89,7 @@ export function Home() {
 
         <div className='header'>
           <div className='left-header'>
-            <IconButton onClick={handleClick} aria-label="open filters">
+            <IconButton onClick={handleClick} aria-label="open filters" sx={{ color: '#3e2723' }}>
               <MenuIcon />
             </IconButton>
 
@@ -109,7 +109,7 @@ export function Home() {
                     <Button
                       size="small"
                       onClick={() => setCheckedIngredients(new Set())}
-                      sx={{ ml: 3, mb: 1, textTransform: 'none', fontSize: '0.8rem' }}
+                      sx={{ ml: 3, mb: 1, textTransform: 'none', fontSize: '0.8rem', color: '#E37B61' }}
                     >
                       Reset Filters
                     </Button>
@@ -130,6 +130,10 @@ export function Home() {
                                   size="small"
                                   checked={checkedIngredients.has(ingredient)}
                                   onChange={() => handleIngredientToggle(ingredient)}
+                                  sx={{
+                                    color: '#D0BB86',
+                                    '&.Mui-checked': { color: '#567F64' },
+                                  }}
                                 />
                               }
                               label={ingredient}
@@ -149,9 +153,19 @@ export function Home() {
             <TextField
               fullWidth
               size="small"
-              placeholder="Search recipes..."
+              placeholder="Search a recipe"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '50px',
+                  backgroundColor: '#fff',
+                  fontFamily: "'Rubik', sans-serif",
+                  '& fieldset': { borderColor: '#D0BB86' },
+                  '&:hover fieldset': { borderColor: '#BB8457' },
+                  '&.Mui-focused fieldset': { borderColor: '#F4B300' },
+                },
+              }}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -169,6 +183,8 @@ export function Home() {
           </div>
         </div>
       </div>
+
+      <h2 className='section-title'>Recommended Recipes</h2>
 
       <div className='main-body-container'>
         {filteredRecipes.map((recipe) => {
