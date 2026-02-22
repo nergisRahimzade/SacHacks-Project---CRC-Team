@@ -1,7 +1,13 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import pastaCobb from '../assets/pasta-cobb-salad.jpg';
+import { useEffect } from "react";
+import { fetchRecipes } from "../services/fetchRecipes";
 
 export function RecipeComponent() {
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
   return (
     <>
       <div className="recipe-card-container">
@@ -9,7 +15,7 @@ export function RecipeComponent() {
           <CardMedia
             sx={{ height: 140, objectFit: 'cover' }}
             image={pastaCobb}
-            id="1"
+            
             title='Pasta Cobb Salad'
           />
           <CardContent>
