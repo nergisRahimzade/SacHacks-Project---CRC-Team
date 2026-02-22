@@ -12,11 +12,12 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
-import { RecipeComponent } from '../components/RecipeComponent';
+import { RecipeComponent } from '../components/RecipeComponent/RecipeComponent';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { fetchRecipes } from '../services/fetchRecipes';
 import type { Recipe } from '../types/Recipe';
 import { categorizeIngredients } from '../utils/ingredientCategories';
+import { Footer } from '../components/RecipeComponent/Footer/Footer';
 
 export function Home() {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -199,6 +200,8 @@ export function Home() {
           );
         })}
       </div>
+
+      <Footer />
     </div>
   )
 }

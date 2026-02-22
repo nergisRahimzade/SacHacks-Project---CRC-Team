@@ -5,6 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import wheatIcon from '../assets/wheat-icon.png';
 import { getRecipeImage } from '../utils/recipeImages';
 import type { Recipe } from '../types/Recipe';
+import { Footer } from '../components/RecipeComponent/Footer/Footer';
 
 export function RecipeDetail() {
   const location = useLocation();
@@ -236,6 +237,8 @@ export function RecipeDetail() {
           </Box>
         </Box>
       </Box>
+
+      <Footer />
     </Box>
   );
 }

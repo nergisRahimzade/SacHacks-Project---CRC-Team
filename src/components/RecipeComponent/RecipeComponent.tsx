@@ -1,8 +1,8 @@
 import { Button, Card, CardContent, CardMedia, Chip, Typography, CardActionArea, CardActions } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import type { Recipe } from "../types/Recipe";
-import { getRecipeDescription } from "../utils/recipeDescriptions";
-import { getRecipeImage } from "../utils/recipeImages";
+import type { Recipe } from "../../types/Recipe";
+import { getRecipeDescription } from "../../utils/recipeDescriptions";
+import { getRecipeImage } from "../../utils/recipeImages";
 
 interface RecipeComponentProps {
   recipe: Recipe;
@@ -67,7 +67,8 @@ export function RecipeComponent({ recipe, matchCount = 0, showMatch = false }: R
               onClick={handleClick}
               sx={{
                 borderRadius: '20px',
-                borderColor: '#F4B300',
+                backgroundColor: '#EEB467',
+                border: "none",
                 color: '#3e2723',
                 textTransform: 'none',
                 fontWeight: 600,
